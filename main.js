@@ -1,6 +1,9 @@
-const { app, BrowserWindow } = require("electron");
+const { app, BrowserWindow, ipcMain } = require("electron");
+const os = require("os");
+const pty = require("node-pty");
 
 let appWin;
+let shell = os.platform() === "win32" ? "powershell.exe" : "bash";
 
 createWindow = () => {
     appWin = new BrowserWindow({
@@ -18,22 +21,20 @@ createWindow = () => {
 
     appWin.setMenu(null);
 
-    appWin.webContents.openDevTools();
-
     appWin.on("closed", () => {
         appWin = null;
     });
+
+    let ptyProcess = pty.spawn(shell);
+
+    ptyProcess.on("data", function(data) {
+        appWin.webContents.send("terminal.incData", data);
+    });
+
+    ipcMain.on("terminal.toTerm", function(event,data) {
+        ptyProcess.write(data)
+    });
 }
-
-let ptyProcess = pty.spawn(shell);
-
-ptyProcess.on("data", function(data) {
-    appWin.webContents.send("terminal.incData", data);
-});
-
-ipcMain.on("terminal.toTerm", function(event,data) {
-    ptyProcess.write(data)
-});
 
 app.on("ready", createWindow);
 

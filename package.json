@@ -8,7 +8,8 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "electron": "ng build && electron ."
+    "electron": "ng build && electron .",
+    "rebuild": "electron-rebuild"
   },
   "private": true,
   "dependencies": {
@@ -20,6 +21,9 @@
     "@angular/platform-browser": "^14.2.0",
     "@angular/platform-browser-dynamic": "^14.2.0",
     "@angular/router": "^14.2.0",
+    "electron-rebuild": "^3.2.9",
+    "node-pty": "^0.10.1",
+    "rebuild": "^0.1.2",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "xterm": "^5.1.0",
