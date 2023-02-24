@@ -25,6 +25,16 @@ createWindow = () => {
     });
 }
 
+let ptyProcess = pty.spawn(shell);
+
+ptyProcess.on("data", function(data) {
+    appWin.webContents.send("terminal.incData", data);
+});
+
+ipcMain.on("terminal.toTerm", function(event,data) {
+    ptyProcess.write(data)
+});
+
 app.on("ready", createWindow);
 
 app.on("window-all-closed", () => {
