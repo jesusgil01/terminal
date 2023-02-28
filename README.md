@@ -13,7 +13,7 @@ Angular and xterm.js
 # Instructions 
 
 Run the following commands:
-*npm install electron
-*npm run rebuild
-*npm run electron
+* npm install electron
+* npm run rebuild
+* npm run electron
   
